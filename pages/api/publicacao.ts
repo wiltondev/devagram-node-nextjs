@@ -1,5 +1,5 @@
 import type {NextApiResponse} from 'next';
-import type {RespostaPadraoMsg} from '../../types/RespostaPadraMsg';
+import type {RespostaPadraoMsg} from '../../types/RespostaPadraoMsg';
 import nc from 'next-connect';
 import {upload, uploadImagemCosmic} from '../../services/uploadImagemCosmic';
 import {conectarMongoDB} from '../../middlewares/conectarMongoDB';
