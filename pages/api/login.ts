@@ -25,7 +25,7 @@ const endpointLogin = async (
         if (usuarioEncontrados && usuarioEncontrados.length > 0) {
             const usuarioEncontrado = usuarioEncontrados[0]
 
-            const token = jwt.sign({ _id: usuarioEncontrado._id }, MINHA_CHAVE_JWT)
+            const token = jwt.sign({ _id: usuarioEncontrado._id }, MINHA_CHAVE_JWT);
 
             return res.status(200).json({
                 nome: usuarioEncontrado.nome,
@@ -35,7 +35,7 @@ const endpointLogin = async (
         }
 
 
-        return res.status(405).json({ erro: 'Usuario ou senha não encontrado' });
+        return res.status(400).json({ erro: 'Usuario ou senha não encontrado' });
     }
     return res.status(405).json({ erro: 'Método informado não é valido' })
 
