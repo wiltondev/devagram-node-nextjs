@@ -2,13 +2,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { RespostaPadraoMsg } from '../../types/RespostaPadraoMsg';
 import type { cadastroRequisicao } from '../../types/cadastroRequisicao';
 import { UsuarioModel } from '../../models/UsuarioModel';
-import md5 from "md5";
 import { conectarMongoDB } from "../../middlewares/conectarMongoDB";
+import md5 from "md5";
 import { upload, uploadImagemCosmic } from "../../services/uploadImagemCosmic";
-import nextConnect from 'next-connect';
+import nc from 'next-connect';
 
 
-const handler = nextConnect()
+const handler = nc()
     .use(upload.single('file'))
     .post(async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
 
@@ -43,7 +43,7 @@ const handler = nextConnect()
             nome: usuario.nome,
             email: usuario.email,
             senha: md5(usuario.senha),
-            avatar : image?.media?.url
+            avatar: image?.media?.url
         }
         await UsuarioModel.create(usuarioASerSalvo)
         return res.status(200).json({ msg: 'Usuario criado com sucesso!' });
@@ -55,4 +55,6 @@ export const config ={
         bodyParser : false
     }
 }
- export default conectarMongoDB(handler);
+
+export default conectarMongoDB(handler);
+ 
