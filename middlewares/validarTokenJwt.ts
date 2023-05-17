@@ -2,12 +2,14 @@ import type {NextApiRequest, NextApiResponse, NextApiHandler} from 'next';
 import type {RespostaPadraoMsg} from '../types/RespostaPadraoMsg';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-export const validarTokenJWT = (handler : NextApiHandler) =>
-    (req : NextApiRequest, res : NextApiResponse<RespostaPadraoMsg>) => {
+export const validarTokenJwt = (handler : NextApiHandler) =>
+    (req : NextApiRequest, res : NextApiResponse<RespostaPadraoMsg| any[]> ) => {
 
     try{
         const {MINHA_CHAVE_JWT} = process.env;
-        if(!MINHA_CHAVE_JWT){
+
+     
+              if(!MINHA_CHAVE_JWT){
             return res.status(500).json({ erro : 'ENV chave JWT nao informada na execução do projeto'});
         }
     
@@ -15,7 +17,7 @@ export const validarTokenJWT = (handler : NextApiHandler) =>
             return res.status(401).json({erro: 'Nao foi possível validar o token de acesso'});
         }
         
-        if(req.method === 'OPTIONS'){
+        if(req.method !== 'OPTIONS'){
             const authorization = req.headers['authorization'];
             if(!authorization){
                 return res.status(401).json({erro: 'Nao foi possível validar o token de acesso'});
@@ -23,7 +25,7 @@ export const validarTokenJWT = (handler : NextApiHandler) =>
     
             const token = authorization.substring(7);
             if(!token){
-                return res.status(401).json({erro: 'Nao foi possível validar o token de acesso'});
+                return res.status(401).json({erro: 'erro ao validar o token de acesso'});
             }
     
             const decoded = jwt.verify(token, MINHA_CHAVE_JWT) as JwtPayload;
@@ -36,7 +38,8 @@ export const validarTokenJWT = (handler : NextApiHandler) =>
             }
     
             req.query.userId = decoded._id;
-        }
+        }  
+        
     }catch(e){
         console.log(e);
         return res.status(401).json({erro: 'Nao foi possível validar o token de acesso'});    

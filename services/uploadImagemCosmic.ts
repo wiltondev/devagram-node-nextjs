@@ -20,15 +20,13 @@ const bucketPublicacoes = Cosmic.bucket({
 });
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage : storage });
+const upload = multer({storage : storage});
 
 const uploadImagemCosmic = async (req: any) => {
     if (req?.file?.originalname) {
-        const media_object = {
+        const media_object={
             originalname: req.file.originalname,
             buffer: req.file.buffer
-           
-            
         };
 
         if (req.url && req.url.includes('publicacao')) {

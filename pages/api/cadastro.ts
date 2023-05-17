@@ -10,18 +10,18 @@ import nc from 'next-connect';
 
 const handler = nc()
     .use(upload.single('file'))
-    .post(async (req: NextApiRequest, res: NextApiResponse<RespostaPadraoMsg>) => {
+    .post(async (req: NextApiRequest, res:NextApiResponse<RespostaPadraoMsg>) => {
 
 
         const usuario = req.body as cadastroRequisicao;
         if (!usuario.nome || usuario.nome.length < 2) {
-            return res.status(400).json({ erro: 'Nome invalido!' })
+            return res.status(400).json({erro:'Nome invalido!'});
         }
 
         if (!usuario.email || usuario.email.length < 5
             || !usuario.email.includes('@')
             || !usuario.email.includes('.')) {
-            return res.status(400).json({ erro: 'Nome invalido!' });
+            return res.status(400).json({ erro: 'Email invalido!' });
         }
 
         if (!usuario.senha || usuario.senha.length < 4) {
@@ -32,7 +32,7 @@ const handler = nc()
         const usuariosComMesmoEmail = await UsuarioModel.find({ email: usuario.email });
         if (usuariosComMesmoEmail && usuariosComMesmoEmail.length > 0) {
             return res.status(400).json({ erro: 'já existe usuario com esse email' })
-        }
+        };
 
         //enviar imagem do multer para o cosmic 
 

@@ -11,5 +11,5 @@ const UsuarioSchema = new Schema({
     
 });
 
-export const UsuarioModel = (mongoose.models.usuarios|| mongoose.model('usuarios', UsuarioSchema));
+export const UsuarioModel = (mongoose.models.usuarios || mongoose.model('usuarios', UsuarioSchema));
 
